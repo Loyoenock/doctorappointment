@@ -1,7 +1,10 @@
 import React from 'react'
 import { assets } from '../assets/assets'
+import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
+
+  const navigate = useNavigate()
   return (
     <section className='flex flex-col md:flex-row flex-wrap bg-primary rounded-lg px-6 md:px-10 lg:px-20'>
       {/* --------------------Left side -------------------- */}
