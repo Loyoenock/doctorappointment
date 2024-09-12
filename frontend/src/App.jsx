@@ -1,17 +1,14 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-import Home from './pages/Home'
-import About from './pages/About'
-import Doctors from './pages/Doctors'
-import Contact from './pages/Contact'
-import MyProfile from './pages/MyProfile'
-import MyAppointments from './pages/MyAppointments'
-import Appointment from './pages/Appointment'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-
-
-
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import About from './pages/About';
+import Doctors from './pages/Doctors';
+import Contact from './pages/Contact';
+import MyProfile from './pages/MyProfile';
+import MyAppointments from './pages/MyAppointments';
+import Appointment from './pages/Appointment';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 const App = () => {
   return (
@@ -24,12 +21,12 @@ const App = () => {
         <Route path='/doctors/:speciality' element={<Doctors />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/my-profile' element={<MyProfile />} />
-        <Route path='my-appoinments' element={<MyAppointments/>} />   
-        <Route path='appoinment/:docId' element={<Appointment/>} />   
+        <Route path='/my-appointments' element={<MyAppointments />} />   {/* Correct spelling */}
+        <Route path='/appointment/:docId' element={<Appointment />} />   {/* Correct spelling */}
       </Routes>
       <Footer />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
