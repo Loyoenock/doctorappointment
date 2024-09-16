@@ -6,8 +6,14 @@ import { assets } from '../assets/assets';
 const Appointment = () => {
   const { docId } = useParams();
   const { doctors, currencySymbol } = useContext(AppContext);
+  const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THUR', 'FRI', 'SAT']
 
   const [docInfo, setDocInfo] = useState(null);
+  const [docSots, setDocSots] = useState([]);
+  const [slotIndex, setSlotIndex] = useState(0);
+  const [slotTime, setSlotTime] = useState('');
+  
+
 
   const fetchDocInfo = async () => {
     const docInfo = doctors.find(doc => doc._id === docId);
@@ -15,9 +21,60 @@ const Appointment = () => {
     console.log(docInfo);
   };
 
+  const getAvailableSlots = async () => {
+    setDocSots([])
+
+    // Getting current date
+    let today = new Date();
+
+    for(let i = 0; i < 7; i++) {
+      // Getting Dtae with index
+      let currentDate = new Date(today)
+      currentDate.setDate(today.getDate() + i)
+
+      // Setting end time of the date with index
+      let endTime = new Date()
+      endTime.setDate(today.getDate() + i)
+      endTime.setHours(21,0,0,0)
+
+      // setting Hours
+      if (today.getDate() === currentDate.getDate()) {
+        currentDate.setHours(currentDate.getHours() > 10 ? currentDate.getHours() + 1 : 10)
+        currentDate.setMinutes(currentDate.getMinutes() > 30 ? 30 : 0)
+      } else {
+        currentDate.setHours(10)
+        currentDate.setMinutes(0)
+      }
+
+      let timeSlots = [] 
+
+      while(currentDate < endTime) {
+        let formattedTime = currentDate.toLocaleTimeString([], {hours: '2-digit', minute: '2-digit'})
+    
+        // Add slot to array
+        timeSlots.push({
+          datetime: new Date(currentDate),
+          time: formattedTime
+        })
+
+        // Increment current time by 30 minnutes
+        currentDate.setMinutes(currentDate.getMinutes() + 30)
+      }
+      setDocSots(prev => ([...prev, timeSlots]))
+    }
+  };
+
   useEffect(() => {
     fetchDocInfo();
   }, [doctors, docId]);
+
+  useEffect(() => {
+    getAvailableSlots();
+  }, [docInfo]);
+
+useEffect(() => {
+  console.log(docSots)
+}, [docSots])
 
   return (
     <section>
@@ -53,6 +110,21 @@ const Appointment = () => {
       ) : (
         <p>Loading doctor details...</p> // Show a loading state while docInfo is being fetched
       )}
+
+        {/* ----------------------- Booking Slot -------------------------- */}
+      <div className='sm:ml-72 sm:pl-4 mt-4 font-medium text-gray-700'>
+        <p>Booking Slots</p>
+        <div className='flex gap-3 items-center w-full overflow-x-scroll mt-4'>
+          {  
+            docSots.length && docSots.map((item, index) => (
+            <div key={index} className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${slotIndex === index ? 'bg-primary text-white' : 'border border-gray-200'}`}>
+              <p>{item[0] && daysOfWeek[item[0].datetime.getDay()]}</p>
+              <p>{item[0] && item[0].datetime.getDate()}</p>
+            </div>
+          ))
+          }
+        </div>
+      </div>
     </section>
   );
 };
