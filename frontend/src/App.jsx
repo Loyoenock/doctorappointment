@@ -7,6 +7,7 @@ import Contact from './pages/Contact';
 import MyProfile from './pages/MyProfile';
 import MyAppointments from './pages/MyAppointments';
 import Appointment from './pages/Appointment';
+import Login from './pages/Login';  // Add Login page import
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -21,8 +22,9 @@ const App = () => {
         <Route path='/doctors/:speciality' element={<Doctors />} />
         <Route path='/contact' element={<Contact />} />
         <Route path='/my-profile' element={<MyProfile />} />
-        <Route path='/my-appointments' element={<MyAppointments />} />   {/* Correct spelling */}
-        <Route path='/appointment/:docId' element={<Appointment />} />   {/* Correct spelling */}
+        <Route path='/my-appointments' element={<MyAppointments />} />
+        <Route path='/appointment/:docId' element={<Appointment />} />
+        <Route path='/login' element={<Login />} />  {/* Add the login route */}
       </Routes>
       <Footer />
     </div>
